@@ -2,7 +2,7 @@
 
 var npm = require('npm'),
     got = require('got'),
-    untar = require('tar-parse');
+    untar = require('tar').Parse;
 
 var unzip = require('zlib').createGunzip,
     Path = require('path');
@@ -31,7 +31,7 @@ module.exports = function (packageName, path, cb) {
       got(tarball)
         .pipe(unzip())
         .pipe(untar())
-        .on('data', function (entry) {
+        .on('entry', function (entry) {
           files.push(Path.relative('package', entry.path));
         })
         .on('end', function () {

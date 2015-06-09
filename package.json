@@ -33,7 +33,7 @@
     "got": "^3.2.0",
     "help-version": "^0.2.0",
     "npm": "^2.11.1",
-    "tar-parse": "0.0.2"
+    "tar": "^2.1.1"
   },
   "devDependencies": {}
 }

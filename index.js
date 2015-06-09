@@ -14,9 +14,11 @@ module.exports = function (packageName, path, cb) {
     path = '/';
   }
 
+  // Initialize npm.
   npm.load(function (err) {
     if (err) return cb(err);
 
+    // Get tarball URL.
     npm.commands.view([packageName, 'dist.tarball'], true, function (err, dist) {
       if (err) return cb(err);
 
@@ -28,6 +30,7 @@ module.exports = function (packageName, path, cb) {
       var tarball = dist[versions[0]]['dist.tarball'];
       var files = [];
 
+      // Download and unpack tarball.
       got(tarball, { encoding: null })
         .pipe(unzip())
         .pipe(untar())

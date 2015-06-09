@@ -1,0 +1,37 @@
+{
+  "name": "npm-get",
+  "version": "0.0.0",
+  "description": "Fetch files and list directories from npm packages",
+  "author": "Eugene Sharygin <eush77@gmail.com>",
+  "license": "MIT",
+  "preferGlobal": true,
+  "bin": {
+    "npm-get": "cli.js"
+  },
+  "files": [
+    "cli.js"
+  ],
+  "homepage": "https://github.com/eush77/npm-get",
+  "repository": "eush77/npm-get",
+  "bugs": {
+    "url": "https://github.com/eush77/npm-get/issues"
+  },
+  "keywords": [
+    "npm",
+    "ls",
+    "list",
+    "get",
+    "download",
+    "fetch",
+    "package",
+    "dir",
+    "directory",
+    "file",
+    "tarball"
+  ],
+  "dependencies": {
+    "help-version": "^0.2.0",
+    "npm": "^2.11.1"
+  },
+  "devDependencies": {}
+}

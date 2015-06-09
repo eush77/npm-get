@@ -28,7 +28,7 @@ module.exports = function (packageName, path, cb) {
       var tarball = dist[versions[0]]['dist.tarball'];
       var files = [];
 
-      got(tarball)
+      got(tarball, { encoding: null })
         .pipe(unzip())
         .pipe(untar())
         .on('entry', function (entry) {

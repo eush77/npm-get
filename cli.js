@@ -16,8 +16,8 @@ function usage() {
     return help(1);
   }
 
-  npmGet(argv[0], function (err, tarball) {
+  npmGet(argv[0], function (err, files) {
     if (err) throw err;
-    console.log(tarball);
+    console.log(files.join('\n'));
   });
 }(process.argv.slice(2)));

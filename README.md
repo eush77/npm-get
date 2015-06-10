@@ -17,15 +17,24 @@ Does not pollute your file system like some other npm downloaders do.
 
 Lists directory or fetches file contents at `<path>`.
 
+With `--long`, prints full paths for nested directories.
+
 ## API
 
-### `npmGet(package, [path], cb(err, contents))`
+### `npmGet(package, [path], [opts], cb(err, contents))`
 
 Downloads file or directory listing from `package`.
 
 `path` — path to file in the package. Defaults to `/` (root).
 
 `contents` — array of file names or string of file's contents.
+
+#### `opts.fullPaths`
+
+Type: `Boolean`<br>
+Default: `false`
+
+Enables full paths output for nested directories.
 
 ## Related
 

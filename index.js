@@ -10,14 +10,9 @@ var unzip = require('zlib').createGunzip,
     Path = require('path');
 
 
-module.exports = function (packageName, path, cb) {
+var npmGet = function (packageName, path, opts, cb) {
   var originalPath = path = Path.normalize(path);
-
-  if (typeof path == 'function') {
-    cb = path;
-    path = '';
-    originalPath = '/';
-  }
+  opts = opts || {};
 
   if (path[0] == '/') {
     path = path.slice(1);
@@ -72,10 +67,37 @@ module.exports = function (packageName, path, cb) {
           }
         }))
         .on('end', cancel(function () {
-          return (files = Object.keys(files)).length
+          files = Object.keys(files);
+
+          if (opts.fullPaths && path) {
+            files = files.map(function (file) {
+              return path + '/' + file;
+            });
+          }
+
+          return files.length
             ? cb(null, files)
             : cb(Error('Not found: ' + originalPath + ' in ' + packageName));
         }));
     });
   });
+};
+
+
+module.exports = function (packageName, path, opts, cb) {
+  var args = [].slice.call(arguments, 1);
+
+  path = typeof args[0] == 'string'
+    ? args.shift()
+    : path = '/';
+
+  opts = typeof args[0] == 'object'
+    ? args.shift()
+    : null;
+
+  cb = typeof args[0] == 'function'
+    ? args.shift()
+    : Function.prototype;
+
+  return npmGet(packageName, path, opts, cb);
 };

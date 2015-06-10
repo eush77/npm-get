@@ -7,11 +7,16 @@ var help = require('help-version')(usage()).help;
 
 
 function usage() {
-  return 'Usage:  npm-get <package> [<path>]';
+  return 'Usage:  npm-get [-l | --long] <package> [<path>]';
 }
 
 
 (function (argv) {
+  if (argv[0] == '-l' || argv[0] == '--long') {
+    var fullPaths = true;
+    argv.shift();
+  }
+
   if (argv.length == 1) {
     argv.push('/');
   }
@@ -20,7 +25,7 @@ function usage() {
     return help(1);
   }
 
-  npmGet(argv[0], argv[1], function (err, contents) {
+  npmGet(argv[0], argv[1], { fullPaths: fullPaths }, function (err, contents) {
     if (err) throw err;
 
     if (Array.isArray(contents)) {

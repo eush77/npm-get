@@ -11,7 +11,7 @@ var unzip = require('zlib').createGunzip,
 
 
 module.exports = function (packageName, path, cb) {
-  var originalPath = path;
+  var originalPath = path = Path.normalize(path);
 
   if (typeof path == 'function') {
     cb = path;

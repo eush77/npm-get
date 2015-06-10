@@ -11,9 +11,12 @@ var unzip = require('zlib').createGunzip,
 
 
 module.exports = function (packageName, path, cb) {
+  var originalPath = path;
+
   if (typeof path == 'function') {
     cb = path;
     path = '';
+    originalPath = '/';
   }
 
   if (path[0] == '/') {
@@ -69,7 +72,9 @@ module.exports = function (packageName, path, cb) {
           }
         }))
         .on('end', cancel(function () {
-          cb(null, Object.keys(files));
+          return (files = Object.keys(files)).length
+            ? cb(null, files)
+            : cb(Error('Not found: ' + originalPath + ' in ' + packageName));
         }));
     });
   });

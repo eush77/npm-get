@@ -3,7 +3,8 @@
 
 var npmGet = require('./');
 
-var help = require('help-version')(usage()).help;
+var help = require('help-version')(usage()).help,
+    minimist = require('minimist');
 
 
 function usage() {
@@ -11,12 +12,20 @@ function usage() {
 }
 
 
-(function (argv) {
-  if (argv[0] == '-l' || argv[0] == '--long') {
-    var fullPaths = true;
-    argv.shift();
+var opts = minimist(process.argv.slice(2), {
+  boolean: 'long',
+  alias: {
+    long: 'l'
+  },
+  unknown: function (opt) {
+    if (opt[0] == '-') {
+      help(1);
+    }
   }
+});
 
+
+(function (argv) {
   if (argv.length == 1) {
     argv.push('/');
   }
@@ -25,7 +34,7 @@ function usage() {
     return help(1);
   }
 
-  npmGet(argv[0], argv[1], { fullPaths: fullPaths }, function (err, contents) {
+  npmGet(argv[0], argv[1], { fullPaths: opts.long }, function (err, contents) {
     if (err) throw err;
 
     if (Array.isArray(contents)) {
@@ -35,4 +44,4 @@ function usage() {
       process.stdout.write(contents);
     }
   });
-}(process.argv.slice(2)));
+}(opts._));

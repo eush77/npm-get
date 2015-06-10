@@ -7,17 +7,27 @@ var help = require('help-version')(usage()).help;
 
 
 function usage() {
-  return 'Usage:  npm-get <package>';
+  return 'Usage:  npm-get <package> [<path>]';
 }
 
 
 (function (argv) {
-  if (argv.length != 1) {
+  if (argv.length == 1) {
+    argv.push('/');
+  }
+
+  if (argv.length != 2) {
     return help(1);
   }
 
-  npmGet(argv[0], function (err, files) {
+  npmGet(argv[0], argv[1], function (err, contents) {
     if (err) throw err;
-    console.log(files.join('\n'));
+
+    if (Array.isArray(contents)) {
+      console.log(contents.join('\n'));
+    }
+    else {
+      process.stdout.write(contents);
+    }
   });
 }(process.argv.slice(2)));

@@ -4,10 +4,34 @@
 
 [![Dependency Status][david-badge]][david]
 
-Fetch files and list directories from npm packages.
+Fetches files and lists directories from npm packages.
+
+Does not pollute your file system like some other npm downloaders do.
 
 [david]: https://david-dm.org/eush77/npm-get
 [david-badge]: https://david-dm.org/eush77/npm-get.png
+
+## CLI
+
+### `npm-get [-l | --long] <package> [<path>]`
+
+Lists directory or fetches file contents at `<path>`.
+
+## API
+
+### `npmGet(package, [path], cb(err, contents))`
+
+Downloads file or directory listing from `package`.
+
+`path` — path to file in the package. Defaults to `/` (root).
+
+`contents` — array of file names or string of file's contents.
+
+## Related
+
+- [github-get] — fetch files and list directories from GitHub repositories.
+
+[github-get]: https://github.com/eush77/github-get
 
 ## Install
 

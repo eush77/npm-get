@@ -4,7 +4,8 @@
 var npmGet = require('./');
 
 var help = require('help-version')(usage()).help,
-    minimist = require('minimist');
+    minimist = require('minimist'),
+    lsView = require('ls-view');
 
 
 function usage() {
@@ -39,7 +40,12 @@ var opts = minimist(process.argv.slice(2), {
            if (err) throw err;
 
            if (Array.isArray(contents)) {
-             console.log(contents.join('\n'));
+             console.log(lsView(entries.map(function (entry, i) {
+               return {
+                 name: contents[i],
+                 type: entry.type.toLowerCase()
+               };
+             })));
            }
            else {
              process.stdout.write(contents);

@@ -8,7 +8,7 @@ var npm = require('npm'),
     pairs = require('object-pairs'),
     popzip = require('pop-zip/unzip'),
     dent = require('dent'),
-    _ = require('underscorify')._.unload();
+    _ = require('underscorify')._.unload()._;
 
 var unzip = require('zlib').createGunzip,
     Path = require('path');

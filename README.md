@@ -11,6 +11,27 @@ Does not pollute your file system like some other npm downloaders do.
 [david]: https://david-dm.org/eush77/npm-get
 [david-badge]: https://david-dm.org/eush77/npm-get.png
 
+## Example
+
+```
+$ npm-get npm-get
+LICENSE
+README.md
+cli.js
+index.js
+package.json
+```
+
+```
+$ npm-get npm-get index.js
+'use strict';
+
+var npm = require('npm'),
+    got = require('got'),
+    untar = require('tar').Parse,
+# ...
+```
+
 ## CLI
 
 ### `npm-get [-l | --long] <package> [<path>]`

@@ -9,7 +9,8 @@
     "npm-get": "cli.js"
   },
   "files": [
-    "cli.js"
+    "cli.js",
+    "index.js"
   ],
   "homepage": "https://github.com/eush77/npm-get",
   "repository": "eush77/npm-get",

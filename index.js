@@ -4,23 +4,27 @@ var npm = require('npm'),
     got = require('got'),
     untar = require('tar').Parse,
     concat = require('concat-stream'),
-    cancelableGroup = require('cancelable-group');
+    cancelableGroup = require('cancelable-group'),
+    pairs = require('object-pairs'),
+    popzip = require('pop-zip/unzip'),
+    dent = require('dent'),
+    _ = require('underscorify')._.unload();
 
 var unzip = require('zlib').createGunzip,
     Path = require('path');
 
 
-var npmGet = function (packageName, path, opts, cb) {
-  var originalPath = path = Path.normalize(path);
+var npmGet = function (packageName, queryPath, opts, cb) {
+  var originalQueryPath = queryPath = Path.normalize(queryPath);
   opts = opts || {};
 
-  if (path[0] == '/') {
-    path = path.slice(1);
+  if (queryPath[0] == '/') {
+    queryPath = queryPath.slice(1);
   }
 
-  if (path.slice(-1)[0] == '/') {
+  if (queryPath.slice(-1)[0] == '/') {
     var mustBeADirectory = true;
-    path = path.slice(0, -1);
+    queryPath = queryPath.slice(0, -1);
   }
 
   // Initialize npm.
@@ -38,9 +42,13 @@ var npmGet = function (packageName, path, opts, cb) {
 
       var tarball = dist[versions[0]]['dist.tarball'];
 
-      var files = {};
-      var addPathElement = function (path) {
-        files[path.split('/', 1)[0]] = true;
+      var entries = {};
+      var addPathElement = function (entry, path) {
+        var pathElement = path.split('/', 1)[0];
+        entries[pathElement] = path.length == pathElement.length
+          ? entry
+          : { type: 'Directory',
+              path: Path.join('package', queryPath, pathElement) };
       };
 
       var cancel = cancelableGroup();
@@ -50,34 +58,37 @@ var npmGet = function (packageName, path, opts, cb) {
         .pipe(unzip())
         .pipe(untar())
         .on('entry', cancel(function (entry) {
-          var file = Path.relative('package', entry.path);
+          var entryPath = Path.relative('package', entry.path);
 
-          if (file == path && !mustBeADirectory) {
+          if (entryPath == queryPath && !mustBeADirectory) {
             return entry.pipe(concat({ encoding: 'string' }, function (data) {
               cancel();
-              cb(null, data);
+              cb(null, entry, data);
             }));
           }
 
-          if (!path) {
-            addPathElement(file);
+          if (!queryPath) {
+            addPathElement(entry, entryPath);
           }
-          else if (file.indexOf(path + '/') == 0) {
-            addPathElement(file.slice(path.length + 1));
+          else if (entryPath.indexOf(queryPath + '/') == 0) {
+            addPathElement(entry, entryPath.slice(queryPath.length + 1));
           }
         }))
         .on('end', cancel(function () {
-          files = Object.keys(files);
+          var items = pairs(entries);
 
-          if (opts.fullPaths && path) {
-            files = files.map(function (file) {
-              return path + '/' + file;
-            });
+          if (!items.length) {
+            var message = 'Not found: ' + originalQueryPath + ' in ' + packageName;
+            return cb(Error(message));
           }
 
-          return files.length
-            ? cb(null, files)
-            : cb(Error('Not found: ' + originalPath + ' in ' + packageName));
+          var paths = dent(popzip(items))();
+
+          if (opts.fullPaths && queryPath) {
+            paths = paths.map(_(Path.join)(queryPath, _));
+          }
+
+          cb(null, dent(), paths);
         }));
     });
   });

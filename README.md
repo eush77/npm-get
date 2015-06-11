@@ -21,13 +21,17 @@ With `--long`, prints full paths for nested directories.
 
 ## API
 
-### `npmGet(package, [path], [opts], cb(err, contents))`
+### `npmGet(package, [path], [opts], cb(err, entries, contents))`
 
 Downloads file or directory listing from `package`.
 
 `path` — path to file in the package. Defaults to `/` (root).
 
+`entries` — single entry or array of entries representing a single file or list of files. Each entry is guaranteed to have at least `path` and `type` properties, with the latter having such values as `Directory`, `File` among others (as defined by [node-tar]).
+
 `contents` — array of file names or string of file's contents.
+
+[node-tar]: http://npm.im/tar
 
 #### `opts.fullPaths`
 

@@ -32,11 +32,15 @@
   "dependencies": {
     "cancelable-group": "^0.1.0",
     "concat-stream": "^1.4.10",
+    "dent": "^0.2.0",
     "got": "^3.2.0",
     "help-version": "^0.2.0",
     "minimist": "^1.1.1",
     "npm": "^2.11.1",
-    "tar": "^2.1.1"
+    "object-pairs": "^0.1.0",
+    "pop-zip": "^1.0.0",
+    "tar": "^2.1.1",
+    "underscorify": "^1.0.0"
   },
   "devDependencies": {}
 }

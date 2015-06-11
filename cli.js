@@ -34,14 +34,15 @@ var opts = minimist(process.argv.slice(2), {
     return help(1);
   }
 
-  npmGet(argv[0], argv[1], { fullPaths: opts.long }, function (err, contents) {
-    if (err) throw err;
+  npmGet(argv[0], argv[1], { fullPaths: opts.long },
+         function (err, entries, contents) {
+           if (err) throw err;
 
-    if (Array.isArray(contents)) {
-      console.log(contents.join('\n'));
-    }
-    else {
-      process.stdout.write(contents);
-    }
-  });
+           if (Array.isArray(contents)) {
+             console.log(contents.join('\n'));
+           }
+           else {
+             process.stdout.write(contents);
+           }
+         });
 }(opts._));

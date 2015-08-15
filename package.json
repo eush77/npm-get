@@ -34,6 +34,7 @@
     "cancelable-group": "^0.1.0",
     "concat-stream": "^1.4.10",
     "dent": "^0.2.0",
+    "file-pager": "^0.1.0",
     "got": "^3.2.0",
     "help-version": "^0.2.0",
     "ls-view": "^0.1.0",

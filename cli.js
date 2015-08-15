@@ -5,16 +5,19 @@ var npmGet = require('./');
 
 var help = require('help-version')(usage()).help,
     minimist = require('minimist'),
-    lsView = require('ls-view');
+    lsView = require('ls-view'),
+    filePager = require('file-pager');
+
+var path = require('path');
 
 
 function usage() {
-  return 'Usage:  npm-get [-l | --long] <package> [<path>]';
+  return 'Usage:  npm-get [-l | --long] [--pager] <package> [<path>]';
 }
 
 
 var opts = minimist(process.argv.slice(2), {
-  boolean: 'long',
+  boolean: ['long', 'pager'],
   alias: {
     long: 'l'
   },
@@ -26,7 +29,7 @@ var opts = minimist(process.argv.slice(2), {
 });
 
 
-(function (argv) {
+(function main(opts, argv) {
   if (argv.length == 1) {
     argv.push('/');
   }
@@ -47,8 +50,12 @@ var opts = minimist(process.argv.slice(2), {
                };
              })));
            }
+           else if (opts.pager) {
+             filePager({ basename: path.basename(entries.path) })
+               .end(contents);
+           }
            else {
              process.stdout.write(contents);
            }
          });
-}(opts._));
+}(opts, opts._));

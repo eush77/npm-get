@@ -34,11 +34,13 @@ var npm = require('npm'),
 
 ## CLI
 
-### `npm-get [-l | --long] <package> [<path>]`
+### `npm-get [-l | --long] [--pager] <package> [<path>]`
 
 Lists directory or fetches file contents at `<path>`.
 
 With `--long`, prints full paths for nested directories.
+
+With `--pager`, shows result in a `$PAGER`. This is not equivalent to `npm-get ... | $PAGER`. Instead, the pager gets the file name argument which allows for syntax highlighting (e.g. via `$LESSOPEN` hook).
 
 ## API
 

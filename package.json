@@ -1,6 +1,6 @@
 {
   "name": "npm-get",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Fetch files and list directories from npm packages",
   "author": "Eugene Sharygin <eush77@gmail.com>",
   "license": "MIT",

@@ -2,12 +2,15 @@
 
 # npm-get
 
+[![Build Status][travis-badge]][travis]
 [![Dependency Status][david-badge]][david]
 
 Fetches files and lists directories from npm packages.
 
 Does not pollute your file system like some other npm downloaders do.
 
+[travis]: https://travis-ci.org/eush77/npm-get
+[travis-badge]: https://travis-ci.org/eush77/npm-get.svg
 [david]: https://david-dm.org/eush77/npm-get
 [david-badge]: https://david-dm.org/eush77/npm-get.png
 

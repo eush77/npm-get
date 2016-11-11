@@ -54,7 +54,7 @@ var npmGet = function (packageName, queryPath, opts, cb) {
       var cancel = cancelableGroup();
 
       // Download and unpack tarball.
-      got(tarball, { encoding: null })
+      got.stream(tarball, { encoding: null })
         .pipe(unzip())
         .pipe(untar())
         .on('entry', cancel(function (entry) {
